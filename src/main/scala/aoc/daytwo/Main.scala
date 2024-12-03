@@ -4,7 +4,7 @@ import aoc.common.Utils
 
 object Main extends Utils:
   @main def partOne(args: String*): Unit =
-    val rawReports = loadResource("input.txt")
+    val rawReports = readResourceLines("input.txt")
 
     val parsedReports = rawReports.map { r =>
       r.split(" ").map(_.toInt).toSeq
@@ -28,7 +28,7 @@ object Main extends Utils:
   }
 
   @main def partTwo(args: String*): Unit =
-    val rawReports = loadResource("input.txt")
+    val rawReports = readResourceLines("input.txt")
 
     val parsedReports = rawReports.map { r =>
       r.split(" ").map(_.toInt).toSeq
