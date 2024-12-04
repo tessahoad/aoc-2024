@@ -1,4 +1,4 @@
-package aoc.daythree
+package aoc.day3
 
 import aoc.common.Utils
 

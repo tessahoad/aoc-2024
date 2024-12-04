@@ -1,9 +1,9 @@
-package aoc.dayone
+package aoc.day1
 
 import scala.io.Source
 
 @main def partOne(args: String*): Unit =
-  val source = Source.fromResource("aoc/dayone/input.txt")
+  val source = Source.fromResource("aoc/day1/input.txt")
   val lines = source.getLines().toList
   source.close()
 
@@ -16,7 +16,7 @@ import scala.io.Source
   println(sizeDiff)
 
 @main def partTwo(args: String*): Unit =
-  val source = Source.fromResource("aoc/dayone/input.txt")
+  val source = Source.fromResource("aoc/day1/input.txt")
   val lines = source.getLines().toList
   source.close()
 
