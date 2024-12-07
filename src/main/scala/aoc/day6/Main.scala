@@ -55,6 +55,11 @@ object Main extends Utils:
 
   @main def partOne(args: String*): Unit =
     val rawMap = readResourceLines("input.txt")
+    val initialState: MapState = getInitialState(rawMap)
+    val finalState = guardWalk(initialState)
+    print(finalState.visited.distinct.size)
+
+  private def getInitialState(rawMap: List[String]) = {
     val coordinates = rawMap.zipWithIndex.flatMap((mapRow, rowIndex) =>
       mapRow.zipWithIndex.map((mapEntry, columnIndex) =>
         (mapEntry, rowIndex, columnIndex)
@@ -68,8 +73,9 @@ object Main extends Utils:
 
     val startingMap = coordinates.map((mapEntry, rowIndex, columnIndex) => (MapEntry.fromChar(mapEntry), rowIndex, columnIndex))
 
-    val finalState = guardWalk(MapState(startingMap, guardInitialPosition, guardInitialDirection, Seq(guardInitialPosition)))
-    print(finalState.visited.distinct.size)
+    val initialState = MapState(startingMap, guardInitialPosition, guardInitialDirection, Seq(guardInitialPosition))
+    initialState
+  }
 
 
 
