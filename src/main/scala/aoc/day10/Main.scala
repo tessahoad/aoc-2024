@@ -16,15 +16,23 @@ object Main extends Utils:
     buildNode(rootValue)
 
 
-  def findUniqueLeafs[T](node: TreeNode[T]): Set[T] = {
+  def findUniqueLeaves[T](node: TreeNode[T]): Set[T] = {
     if (node.children.isEmpty) {
       Set(node.value)
     } else {
-      node.children.flatMap(findUniqueLeafs).toSet
+      node.children.flatMap(findUniqueLeaves).toSet
     }
   }
 
-  def memoiseTrails(coordinates: Seq[(Int, (Int, Int))]): mutable.Map[(Int, (Int, Int)), Seq[(Int, (Int, Int))]]  =
+  def findFullPaths[T](node: TreeNode[T]): Set[Seq[T]] = {
+    if (node.children.isEmpty) {
+      Set(Seq(node.value))
+    } else {
+      node.children.flatMap(findFullPaths).map(node.value +: _).toSet
+    }
+  }
+
+  def validStepMap(coordinates: Seq[(Int, (Int, Int))]): mutable.Map[(Int, (Int, Int)), Seq[(Int, (Int, Int))]]  =
     val trailMap: mutable.Map[(Int, (Int, Int)), Seq[(Int, (Int, Int))]] = mutable.Map()
     coordinates.foreach { case (elevation, coord) =>
       val (rowIndex, columnIndex) = coord
@@ -48,10 +56,24 @@ object Main extends Utils:
         (mapEntry.toString.toInt, (rowIndex, columnIndex))
       ))
 
-    val trailMap = memoiseTrails(coordinates)
+    val trailMap = validStepMap(coordinates)
     val trailHeads = trailMap.filter((key, value) => key._1 == 0)
     val trees = trailHeads.map(head => buildTree(trailMap, head._1))
-    val leaves = trees.map(findUniqueLeafs).map(uniqueLeaves => uniqueLeaves.filter(_._1 == 9))
+    val leaves = trees.map(findUniqueLeaves).map(uniqueLeaves => uniqueLeaves.filter(_._1 == 9))
 
     println(leaves.map(_.size).sum)
+
+  @main def partTwo(args: String*): Unit =
+    val islandMap = readResourceLines("input.txt")
+    val coordinates = islandMap.zipWithIndex.flatMap((mapRow, rowIndex) =>
+      mapRow.zipWithIndex.map((mapEntry, columnIndex) =>
+        (mapEntry.toString.toInt, (rowIndex, columnIndex))
+      ))
+
+    val trailMap = validStepMap(coordinates)
+    val trailHeads = trailMap.filter((key, value) => key._1 == 0)
+    val trees = trailHeads.map(head => buildTree(trailMap, head._1))
+    val paths = trees.map(findFullPaths).map(paths => paths.filter(_.size == 10))
+
+    println(paths.map(_.size).sum)
 
