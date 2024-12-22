@@ -104,7 +104,7 @@ object Main extends Utils:
       val obstacleUpdatedMap = updateMap(initialState.map, (MapEntry.BLANK, newObstacleLocation._1, newObstacleLocation._2), (MapEntry.OBSTACLE, newObstacleLocation._1, newObstacleLocation._2))
       val initialGuardPositionRemovedMap = updateMap(obstacleUpdatedMap, (MapEntry.GUARD, initialState.guardPosition._1, initialState.guardPosition._2), (MapEntry.BLANK, initialState.guardPosition._1, initialState.guardPosition._2))
       val newGuardPositionMap = updateMap(initialGuardPositionRemovedMap, (MapEntry.BLANK, guardStartingLocation._1, guardStartingLocation._2), (MapEntry.GUARD, guardStartingLocation._1, guardStartingLocation._2))
-      MapState(newGuardPositionMap, guardStartingLocation, guardDirection, Seq((guardStartingLocation._1, guardStartingLocation._2, guardDirection)), false)
+      MapState(obstacleUpdatedMap, guardStartingLocation, guardDirection, Seq((guardStartingLocation._1, guardStartingLocation._2, guardDirection)), false)
     }
 
     val finalStates = mapStatesToCheckForLoops.zipWithIndex.map((mapState, index) => {
