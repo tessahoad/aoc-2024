@@ -7,3 +7,5 @@
 hs_err_pid*
 project/target
 target
+input.txt
+README.md
